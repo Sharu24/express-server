@@ -62,9 +62,10 @@ var getFile = () => {
 };
 
 app.use(ignoreFavicon);
+app.use(express.static("public"));
 app.use(logRequest);
 
-app.all("/*", (req, res) => {
+app.all("/", (req, res) => {
   res.send(
     "<center><h1> Welcome to <font color='red'>Sharu Infotech</font> </h1></center>"
   );
