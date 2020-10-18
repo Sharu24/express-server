@@ -36,8 +36,10 @@ var ignoreFavicon = (req, res, next) => {
 var logRequest = (req, res, next) => {
   const logIP =
     "Incoming Request from " +
-    req.ip +
+    req.ip.split(":")[1] +
     " at " +
+    new Date().toLocaleDateString() +
+    " " +
     new Date().toLocaleTimeString() +
     "\n";
 
