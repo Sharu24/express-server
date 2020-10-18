@@ -1,4 +1,5 @@
 const express = require("express");
+const https = require("https");
 const fs = require("fs");
 const path = require("path");
 const app = express();
@@ -6,6 +7,11 @@ const app = express();
 const PORT = 80;
 
 const logDir = path.join(__dirname, "/logs/");
+
+const options = {
+  key: fs.readFileSync("./public/isharu.in/private.key"),
+  cert: fs.readFileSync("./public/isharu.in/certificate.crt")
+};
 
 var getDate = () => {
   var now = new Date();
@@ -71,6 +77,12 @@ app.all("/", (req, res) => {
   );
 });
 
+/*
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}`);
+});
+*/
+
+https.createServer(options, app).listen(PORT, () => {
+  console.log("Server is listening on PORT : " + PORT);
 });
