@@ -38,7 +38,7 @@ var logRequest = (req, res, next) => {
     "Incoming Request from " +
     req.ip +
     " at " +
-    new Date().toLocaleDateString() +
+    new Date().toLocaleTimeString() +
     "\n";
 
   const fileName = getFile();
