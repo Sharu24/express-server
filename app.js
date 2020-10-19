@@ -1,4 +1,5 @@
 const express = require("express");
+const http = require("http");
 const https = require("https");
 const fs = require("fs");
 const path = require("path");
@@ -71,18 +72,23 @@ app.use(ignoreFavicon);
 app.use(express.static("public"));
 app.use(logRequest);
 
+app.use((req, res, next) => {
+  if (req.secure) {
+    next();
+  } else {
+    res.redirect("https://" + req.headers.host + req.url);
+  }
+});
+
 app.all("/", (req, res) => {
+  console.log("I am hit");
   res.send(
     "<center><h1> Welcome to <font color='red'>Sharu Infotech</font> </h1></center>"
   );
 });
 
-/*
-app.listen(PORT, () => {
-  console.log(`Server is listening on ${PORT}`);
-});
-*/
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(options, app);
 
-https.createServer(options, app).listen(PORT, () => {
-  console.log("Server is listening on PORT : " + PORT);
-});
+httpServer.listen(80);
+httpsServer.listen(443);
